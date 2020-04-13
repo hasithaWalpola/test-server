@@ -1,0 +1,670 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "API of NSBM IPT Programme",
+    "description" : "Industry preparation program dubbed “IPT” is an initiative that helps a student for a smooth and easy transition to the industrial life after the studies at NSBM. It is expected to provide a firsthand experience on the industrial life and knowledge how to thrive in the industry, through knowledge of experienced IT professionals. Using this API,  Students can share their qualifications and the experts can see those and presumably recruit them.",
+    "version" : "1.0.0-oas3"
+  },
+  "servers" : [ {
+    "url" : "http://nsbm.educationhost.cloud/v2"
+  } ],
+  "tags" : [ {
+    "name" : "login",
+    "description" : "User Authentication"
+  }, {
+    "name" : "members",
+    "description" : "Operations available to Students and Industry Experts"
+  }, {
+    "name" : "categories",
+    "description" : "Operations to Filter Students by Categories"
+  }, {
+    "name" : "accounts",
+    "description" : "Secured Admin-only calls"
+  } ],
+  "paths" : {
+    "/login" : {
+      "post" : {
+        "tags" : [ "login" ],
+        "summary" : "get an access token",
+        "requestBody" : {
+          "description" : "Users can receive an access token by providing their email address and password.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/userLogin"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Successfully Logged In",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/loggedIn"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          }
+        }
+      }
+    },
+    "/members" : {
+      "get" : {
+        "tags" : [ "members" ],
+        "summary" : "list members approved by IPT Manager",
+        "description" : "By passing in the appropriate options, you can get list of members approved by the IPT Manager\n",
+        "operationId" : "listMembers",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page you want to get",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "maximum number of records to return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "students list",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/membersList"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        },
+        "security" : [ {
+          "access_token" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "members" ],
+        "summary" : "Students can update their profiles.",
+        "description" : "Students can update their profiles with qualifications after their accounts has been approved.\n",
+        "operationId" : "updateMember",
+        "requestBody" : {
+          "description" : "Creates a new user account according to submitted data.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/memberUpdateData"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Details updated successfully.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/membersUpdated"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        },
+        "security" : [ {
+          "access_token" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "members" ],
+        "summary" : "register new members",
+        "requestBody" : {
+          "description" : "Creates a new user account according to submitted data.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/memberRegistration"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "User account created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          }
+        }
+      }
+    },
+    "/members/{id}" : {
+      "get" : {
+        "tags" : [ "members" ],
+        "summary" : "access member details when the id is known.",
+        "description" : "Anyone who logged in can access member details when the id is known.\n",
+        "operationId" : "singleMember",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The member ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Member Details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/singleMemberData"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        },
+        "security" : [ {
+          "access_token" : [ ]
+        } ]
+      }
+    },
+    "/categories/list" : {
+      "get" : {
+        "tags" : [ "categories" ],
+        "summary" : "list of available categories",
+        "description" : "You can get list of available categories.\n",
+        "operationId" : "listCategories",
+        "responses" : {
+          "200" : {
+            "description" : "category list",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/categoriesList"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        },
+        "security" : [ {
+          "access_token" : [ ]
+        } ]
+      }
+    },
+    "/categories" : {
+      "get" : {
+        "tags" : [ "categories" ],
+        "summary" : "filter students by category",
+        "description" : "You can get a list of members in each category by providing the ID of the category.\n",
+        "operationId" : "filterMembers",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "ID of the category",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page you want to get",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "maximum number of records to return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Member Details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/singleMemberData"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        },
+        "security" : [ {
+          "access_token" : [ ]
+        } ]
+      }
+    },
+    "/accounts" : {
+      "get" : {
+        "tags" : [ "accounts" ],
+        "summary" : "list of newly registered accounts",
+        "description" : "You can get list of newly registered members.\n",
+        "operationId" : "newMembers",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "page you want to get",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "maximum number of records to return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "students list",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/membersList"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        },
+        "security" : [ {
+          "access_token" : [ ]
+        } ]
+      }
+    },
+    "/accounts/{id}" : {
+      "put" : {
+        "tags" : [ "accounts" ],
+        "summary" : "approve a newly registered member",
+        "description" : "IPT Manager can approve a member by providing that member's ID\n",
+        "operationId" : "approveMember",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The member ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Account approved successfully.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/memberApproved"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        },
+        "security" : [ {
+          "access_token" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "accounts" ],
+        "summary" : "remove invalid members",
+        "description" : "The IPT manager can remove invalid members.\n",
+        "operationId" : "deleteMember",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The member ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Account deleted successfully.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/memberDeleted"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        },
+        "security" : [ {
+          "access_token" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "loggedIn" : {
+        "properties" : {
+          "access_token" : {
+            "type" : "string",
+            "example" : "eyJ0eXAiOiJKV1QiLCJhbiOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbWFkaHVyYXNyaS5jb20iLCJhdWQiOiJodHRwczpcL1wvbWFkaHVyYXNyaS5jb20iLCJpYXQiOjE1ODY1MjM3NjEsIm5iZiI6MTU4NjUyMzc3MSwiZXhwIjoxNTkyNTIzNzYxLCJkYXRhIjp7ImlkIjoiMSIsImVtYWlsIjoiY29tcHV0aW5nQG5zYm0ubGsiLb2xlIjoiYWRtaW4ifX0.3_gUEtORIwTXcOFUxB6dZGHppvK9Fxx5Dzna43T6U"
+          },
+          "id" : {
+            "type" : "string",
+            "example" : "6"
+          },
+          "firstName" : {
+            "type" : "string",
+            "example" : "Samindya"
+          },
+          "lastName" : {
+            "type" : "string",
+            "example" : "Bandara"
+          },
+          "role" : {
+            "type" : "string",
+            "example" : "student"
+          },
+          "time" : {
+            "type" : "integer",
+            "example" : 1586523761
+          },
+          "email" : {
+            "type" : "string",
+            "example" : "samindya@students.nsbm.lk"
+          },
+          "status" : {
+            "type" : "string",
+            "example" : "success"
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Successfully Logged In"
+          }
+        }
+      },
+      "userLogin" : {
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "example" : "username@nsbm.lk"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "mystrongpassword"
+          }
+        }
+      },
+      "membersList" : {
+        "required" : [ "current_page", "data", "status", "total_pages", "total_results" ],
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "success"
+          },
+          "current_page" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "total_pages" : {
+            "type" : "integer",
+            "example" : 2
+          },
+          "total_results" : {
+            "type" : "integer",
+            "example" : 2
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/memberListData"
+          }
+        }
+      },
+      "memberListData" : {
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 6
+          },
+          "firstName" : {
+            "type" : "string",
+            "example" : "Samindya"
+          },
+          "lastName" : {
+            "type" : "string",
+            "example" : "Bandara"
+          },
+          "email" : {
+            "type" : "string",
+            "example" : "samindya@students.nsbm.lk"
+          },
+          "organization" : {
+            "type" : "string",
+            "example" : "NSBM"
+          }
+        }
+      },
+      "memberRegistration" : {
+        "required" : [ "email", "firstName", "lastName", "organization", "password", "role" ],
+        "properties" : {
+          "firstName" : {
+            "type" : "string",
+            "example" : "Samindya"
+          },
+          "lastName" : {
+            "type" : "string",
+            "example" : "Bandara"
+          },
+          "role" : {
+            "type" : "string",
+            "example" : "student"
+          },
+          "email" : {
+            "type" : "string",
+            "example" : "samindya@students.nsbm.lk"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "mystrongpassword"
+          },
+          "organization" : {
+            "type" : "string",
+            "example" : "NSBM"
+          }
+        }
+      },
+      "singleMemberData" : {
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "example" : "2"
+          },
+          "firstName" : {
+            "type" : "string",
+            "example" : "Samindya"
+          },
+          "lastName" : {
+            "type" : "string",
+            "example" : "Bandara"
+          },
+          "email" : {
+            "type" : "string",
+            "example" : "samindya@students.nsbm.lk"
+          }
+        }
+      },
+      "membersUpdated" : {
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "success"
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Details updated successfully."
+          }
+        }
+      },
+      "memberUpdateData" : {
+        "properties" : {
+          "category" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "languages" : {
+            "type" : "string",
+            "example" : "Java, PHP, JavaScript, C, Python"
+          },
+          "ides" : {
+            "type" : "string",
+            "example" : "VS Code, Android Studio, NetBeans"
+          },
+          "qualifications" : {
+            "type" : "string",
+            "example" : "Experience in Spring Boot Framework."
+          }
+        }
+      },
+      "categoriesList" : {
+        "properties" : {
+          "cat_id" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "cat_name" : {
+            "type" : "string",
+            "example" : "Programming"
+          }
+        }
+      },
+      "memberApproved" : {
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "success"
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Account approved successfully."
+          }
+        }
+      },
+      "memberDeleted" : {
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "success"
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Account deleted successfully."
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "access_token" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}

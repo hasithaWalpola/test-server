@@ -1,0 +1,352 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "NSBM Industry Preparation Programme | API ",
+        "description": "Industry preparation program dubbed “IPT” is an initiative that helps a student for a smooth and easy transition to the industrial life after the studies at NSBM. It is expected to provide a firsthand experience on the industrial life and knowledge how to thrive in the industry, through knowledge of experienced IT professionals. Using this API,  Students can share their qualifications and the experts can see those and presumably recruit them.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://nsbm.educationhost.cloud/v2"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Admin",
+            "description": "Admin EndPoints"
+        },
+        {
+            "name": "Student",
+            "description": "Operations available to Students and Industry Experts"
+        },
+        {
+            "name": "Company | Expert",
+            "description": "Operations to Filter Students by Categories"
+        },
+        {
+            "name": "accounts",
+            "description": "Secured Admin-only calls"
+        }
+    ],
+    "paths": {
+        "/loginAdmin": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Admin Login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#definitions/adminLogin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "admin login scuess",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/adminLoginScuess"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Admin Login Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/adminLoginFail_1"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/getPendingStudents": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Retrive the approval pening studnent details",
+                "requestBody": {
+                    "required": false
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Students Details Sucessfull",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/getPendingStudents"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Admin Login Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/commomError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "access_token": []
+                    }
+                ]
+            }
+        },
+        "/approveStudent": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Approve pening studnent",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#definitions/approveStudent"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Student Approved Scuessfull",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/approveStudentSucess"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Student Approved Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/commomError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "access_token": []
+                    }
+                ]
+            }
+        },
+        "/deletePendingStudent": {
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete the pending studnent record",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#definitions/approveStudent"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Student Delete Scuessfull",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/deleteStudentSucess"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Student Delete Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/commomError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "access_token": []
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "adminLogin": {
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "iptadmin@nsbm.lk"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "mySecretPassword"
+                }
+            }
+        },
+        "adminLoginScuess": {
+            "properties": {
+                "success": {
+                    "type": "boolean",
+                    "example": "true"
+                },
+                "token": {
+                    "type": "string",
+                    "example": "JWT_TOKEN"
+                },
+                "userId": {
+                    "type": "string",
+                    "example": "_id"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Admin Login Sucessfull"
+                }
+            }
+        },
+        "adminLoginFail_1": {
+            "properties": {
+                "status": {
+                    "type": "400",
+                    "example": "400"
+                },
+                "message": {
+                    "type": "string",
+                    "example": " Seems like you dont have account  , Incorrect Password"
+                }
+            }
+        },
+        "getPendingStudents": {
+            "properties": {
+                "success": {
+                    "type": "boolean",
+                    "example": "true"
+                },
+                "is_verified": {
+                    "type": "boolean",
+                    "example": "false"
+                },
+                "_id": {
+                    "type": "string",
+                    "example": "5e7c1cd592c612051822167e"
+                },
+                "national_Id": {
+                    "type": "string",
+                    "example": "19291310v"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Studnet Name"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "Studnet Email"
+                },
+                "profession": {
+                    "type": "string",
+                    "example": "undergraduate"
+                },
+                "affiliation": {
+                    "type": "string",
+                    "example": "University of Plymouth"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "Student"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Hashed_Password"
+                },
+                "is_rejected": {
+                    "type": "boolean",
+                    "example": "false"
+                },
+                "created_date": {
+                    "type": "time_stamp",
+                    "example": "2020-03-26T03:09:09.201Z"
+                }
+            }
+        },
+        "approveStudent": {
+            "properties": {
+                "reg_id": {
+                    "type": "string",
+                    "example": "5e7c1cd592c612051822167e"
+                }
+            }
+        },
+        "approveStudentSucess": {
+            "properties": {
+                "scuess": {
+                    "type": "boolean",
+                    "example": "true"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Student Approved Scuessfull"
+                }
+            }
+        },
+        "deleteStudentSucess": {
+            "properties": {
+                "scuess": {
+                    "type": "boolean",
+                    "example": "true"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Student Deleted Scuessfull"
+                }
+            }
+        },
+        "commomError": {
+            "properties": {
+                "status": {
+                    "type": "400",
+                    "example": "400"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Error Message"
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "access_token": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

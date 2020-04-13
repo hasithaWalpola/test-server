@@ -14,6 +14,11 @@ mongoose.connect(process.env.DB_CONNECT,
 ); 
 
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+ 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(express.json());
 
 app.use((req, res, next)=>{
@@ -24,6 +29,6 @@ app.use((req, res, next)=>{
        next();
 })
 
-app.use('/api/user', authRoute)
+app.use('/api/v1', authRoute)
 
 app.listen(3000, () => console.log('Server is up and running')) 

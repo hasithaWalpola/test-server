@@ -56,7 +56,7 @@ exports.deletePendingStudent = async (req, res) => {
     const dataStudent = await Users.findByIdAndRemove(req.body.reg_id)
         .then(responce => {
              console.log(responce)
-            //return responce
+             res.status(200).send({ success: 'true', responce, message: 'Delete Sucessfull!' })
         })
         .catch(err => {
             //  console.log(err)
