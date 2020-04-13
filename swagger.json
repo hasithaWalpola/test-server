@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://nsbm.educationhost.cloud/v2"
+            "url": "https://nspm-ipt.herokuapp.com/api/v1"
         }
     ],
     "tags": [
