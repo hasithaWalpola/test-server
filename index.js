@@ -5,6 +5,11 @@ const dotenv = require('dotenv')
 const authRoute = require('./routes/auth')
 
 
+//PORT 
+
+const port = process.env.PORT || 3000
+
+
 dotenv.config(); 
 
 //DB Connection
@@ -31,4 +36,4 @@ app.use((req, res, next)=>{
 
 app.use('/api/v1', authRoute)
 
-app.listen(3000, () => console.log('Server is up and running')) 
+app.listen(port, () => console.log('Server is up and running')) 
