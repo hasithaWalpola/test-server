@@ -29,6 +29,48 @@
         }
     ],
     "paths": {
+        "/registerAsCompany": {
+            "post": {
+                "tags": [
+                    "Company | Expert"
+                ],
+                "summary": "Company Registration",
+                "description": "",
+                "parameters": [],
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json" :{
+                            "schema":{
+                                "$ref" : "#components/schemas/companyRegistration"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref" : "#components/schemas/companyRegistraionScuess"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref" : "#components/schemas/namcompanyRegistrationFail"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/loginAdmin": {
             "post": {
                 "tags": [
@@ -365,6 +407,79 @@
         }
     },
     "components": {
+        "schemas": {
+            "companyRegistraionScuess": {
+                "type":"object",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "example": 201
+                    }, 
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "registeredCompany": {
+                        "type": "object",
+                        "example" : {
+                            "is_verified": false,
+                            "_id": "5e956ce0d847a112e317dc83",
+                            "company_name": "Test Company",
+                            "company_reg_no": 1000101,
+                            "country": "Sri Lanka",
+                            "contact_no": "+9412345677",
+                            "email": "test_company@email.com",
+                            "password": "hasedPassword",
+                            "created_date": "2020-04-14T07:57:20.510Z",
+                            "__v": 0
+                        }
+                      }
+                }
+            },
+            "namcompanyRegistrationFail": {
+                "type":"object",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "example": 400
+                    }, 
+                    "message": {
+                        "type": "string",
+                        "example": "error message"
+                    }
+
+                }
+            },
+            "companyRegistration" : {
+                "required" : [ "email", "firstName", "lastName", "organization", "password", "role" ],
+                "properties" : {
+                  "company_name" : {
+                    "type" : "string",
+                    "example" : "Test_Company"
+                  },
+                  "company_reg_no" : {
+                    "type" : "number",
+                    "example" : 1000101
+                  },
+                  "country" : {
+                    "type" : "string",
+                    "example" : "Sri Lanka"
+                  },
+                  "contact_no" : {
+                    "type" : "string",
+                    "example" : "+94771234567"
+                  },
+                  "email" : {
+                    "type" : "string",
+                    "example" : "test_company@email.lk"
+                  },
+                  "password" : {
+                    "type" : "string",
+                    "example" : "mysecretpassword"
+                  }
+                }
+              }
+        },
         "securitySchemes": {
             "access_token": {
                 "type": "http",

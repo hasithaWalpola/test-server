@@ -3,19 +3,10 @@ const router = require('express').Router();
 //Controllers
 const authController = require('../controller/auth')
 const adminController = require('../controller/admin')
+const companyController = require('../controller/company')
 
 //Middleware
 const isAuth = require('../middleware/isAuth')
-
-
-
-// //Swagger
-// const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('./swagger.json');
- 
-// router.use('/api-docs', swaggerUi.serve);
-// router.get('/api-docs', swaggerUi.setup(swaggerDocument));
-
 
 
 //ADMIN
@@ -25,7 +16,8 @@ router.post('/approveStudent' , adminController.approvePendingStd)
 router.get('/getPendingStudents' , adminController.getPendingStudents)
 router.delete('/deletePendingStudent' , adminController.deletePendingStudent)
 
-
+//COMPANY
+router.post('/registerAsCompany' ,companyController.registerCompany)
 
 router.post('/register', authController.register)
 router.post('/login' , authController.login)
