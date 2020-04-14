@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-const usersSchema = new mongoose.Schema({
-    national_Id:{
+const studentsSchema = new mongoose.Schema({
+    nsbm_Id:{
         type : String,
         min : 6,
         required: true,
@@ -46,4 +46,4 @@ const usersSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model('Users' , usersSchema)
+module.exports = mongoose.model('Student' , studentsSchema)

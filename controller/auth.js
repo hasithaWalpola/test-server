@@ -1,4 +1,4 @@
-const Users = require('../model/Users')
+const Students = require('../model/Students')
 const Admin = require('../model/Admin')
 const { registrationValidation, loginValidation } = require('../validation')
 const { adminCreateValidation , adminLoginValidation } = require('../validation/adminValidation')
@@ -58,7 +58,7 @@ exports.register = async (req, res) => {
     }
 
     //check user exist
-    const emailCheck = await Users.findOne({ email: req.body.email })
+    const emailCheck = await Students.findOne({ email: req.body.email })
 
     if (emailCheck) {
         return res.status(400).send({ error: 'Email Already Exixts' })
@@ -68,8 +68,8 @@ exports.register = async (req, res) => {
     const salt = await bycrpt.genSalt(10);
     const hashedPassword = await bycrpt.hash(req.body.password, salt)
 
-    const user = new Users({
-        national_Id: req.body.national_Id,
+    const user = new Students({
+        nsbm_Id: req.body.nsbm_Id,
         name: req.body.name,
         email: req.body.email,
         profession: req.body.profession,

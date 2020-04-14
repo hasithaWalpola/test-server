@@ -69,7 +69,31 @@
                 }
             }
         },
-        "/getPendingStudents": {
+        "/getPendingStudents ": {
+            "parameters" : [ {
+                "name" : "page",
+                "in" : "query",
+                "description" : "page you want to get",
+                "required" : true,
+                "style" : "form",
+                "explode" : true,
+                "schema" : {
+                  "minimum" : 1,
+                  "type" : "integer",
+                  "format" : "int32"
+                }
+              }, {
+                "name" : "limit",
+                "in" : "query",
+                "description" : "maximum number of records to return",
+                "required" : true,
+                "style" : "form",
+                "explode" : true,
+                "schema" : {
+                  "type" : "integer",
+                  "format" : "int32"
+                }
+              } ],
             "get": {
                 "tags": [
                     "Admin"

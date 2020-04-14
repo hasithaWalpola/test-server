@@ -1,13 +1,50 @@
-const Users = require('../model/Users')
+const Students = require('../model/Students')
 
 exports.getPendingStudents = async (req, res) => {
 
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit)
+
+    console.log(page, 'Page', limit, 'Limit')
+
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+
+
+
     //get all pending students
-    const data = await Users.where({ type: 'Student', is_verified: false })
+    //const data = await Students.where({ type: 'student', is_verified: false })
+
+    const results = {}
+
+    const pageCount = await Students.countDocuments().exec() / limit
+
+    results.pageCount = Math.ceil(pageCount)
+
+    if (endIndex < await Students.countDocuments().exec()) {
+        results.next = {
+            page: page + 1,
+            limit: limit
+        }
+    }
+
+    if (startIndex > 0) {
+
+        results.previous = {
+            page: page - 1,
+            limit: limit
+        }
+    }
+
+    
+        results.results = await Students.find().limit(limit).skip(startIndex).exec()
+   
+    
+
 
     try {
         // const registeredUser = await user.save();
-        res.status(200).send({ success: 'true', data, message: 'Get Students Details Sucessfull' })
+        res.status(200).send({ success: 'true', results, message: 'Get Students Details Sucessfull' })
     } catch (err) {
         res.status(400).send({ error: err })
     }
@@ -55,8 +92,8 @@ exports.deletePendingStudent = async (req, res) => {
     //Get Student
     const dataStudent = await Users.findByIdAndRemove(req.body.reg_id)
         .then(responce => {
-             console.log(responce)
-             res.status(200).send({ success: 'true', responce, message: 'Delete Sucessfull!' })
+            console.log(responce)
+            res.status(200).send({ success: 'true', responce, message: 'Delete Sucessfull!' })
         })
         .catch(err => {
             //  console.log(err)
