@@ -1,7 +1,7 @@
 const Students = require('../model/Students')
 const Admin = require('../model/Admin')
-const { registrationValidation, loginValidation } = require('../validation')
-const { adminCreateValidation , adminLoginValidation } = require('../validation/adminValidation')
+const { studentRegistrationValidation, loginValidation } = require('../validation')
+const { adminCreateValidation, adminLoginValidation } = require('../validation/adminValidation')
 const bycrpt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -29,7 +29,7 @@ exports.cerateAdmin = async (req, res) => {
     const hashedPassword = await bycrpt.hash(req.body.password, salt)
 
     const admin = new Admin({
-  
+
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword
@@ -48,66 +48,67 @@ exports.cerateAdmin = async (req, res) => {
 
 
 
-exports.register = async (req, res) => {
+exports.registerAsStudent = async (req, res) => {
     //Validation
-    const { error } = registrationValidation(req.body)
+    const { error } = studentRegistrationValidation(req.body)
 
 
     if (error) {
-        return res.status(400).send({ error: error.details[0].message })
+        return res.status(400).json({ status: 400, message: error.details[0].message })
     }
 
     //check user exist
     const emailCheck = await Students.findOne({ email: req.body.email })
 
     if (emailCheck) {
-        return res.status(400).send({ error: 'Email Already Exixts' })
+        return res.status(400).send({ status: 400, message: 'Email Already Exixts' })
     }
 
     //Hash the password
     const salt = await bycrpt.genSalt(10);
     const hashedPassword = await bycrpt.hash(req.body.password, salt)
 
-    const user = new Students({
-        nsbm_Id: req.body.nsbm_Id,
+    const student = new Students({
         name: req.body.name,
-        email: req.body.email,
-        profession: req.body.profession,
+        nsbm_Id: req.body.nsbm_Id,
+        acadamic_year: req.body.acadamic_year,
         affiliation: req.body.affiliation,
-        type: req.body.type,
+        contact_no: req.body.contact_no,
+        email: req.body.email,
         password: hashedPassword
     });
 
-    console.log('here', user)
+    console.log('here', student)
 
     try {
-        const registeredUser = await user.save();
-        res.status(200).send({ success: 'true', registeredUser, message: 'Member Registration Sucessfull' })
+        const registeredStudent = await student.save();
+
+        res.status(200).send({ success: 'true', registeredStudent, message: 'Studnet Registration Sucessfull' })
     } catch (err) {
-        res.status(400).send({ error: err })
+        res.status(400).send({ status: 400, message: err })
     }
 
 }
 
 exports.adminLogin = async (req, res, next) => {
-    
-   // console.log(req)
+
+    // console.log(req)
     //Validation Feils
     const { error } = adminLoginValidation(req.body)
     if (error) {
-        return res.status(400).json({status: 400, message: error.details[0].message})
+        return res.status(400).json({ status: 400, message: error.details[0].message })
     }
 
     //User Check
     const adminCheck = await Admin.findOne({ email: req.body.email })
     if (!adminCheck) {
-        return res.status(400).json({status: 400, message: " Seems like you dont have account "})
+        return res.status(400).json({ status: 400, message: " Seems like you dont have account " })
     }
 
     //PasswordComaprison
     const validPassword = await bycrpt.compare(req.body.password, adminCheck.password)
     if (!validPassword) {
-        return res.status(400).json({status: 400, message: "Incorrect Password"})
+        return res.status(400).json({ status: 400, message: "Incorrect Password" })
     }
 
     //creating a token

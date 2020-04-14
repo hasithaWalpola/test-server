@@ -4,6 +4,7 @@ const router = require('express').Router();
 const authController = require('../controller/auth')
 const adminController = require('../controller/admin')
 const companyController = require('../controller/company')
+const studentController = require('../controller/student')
 
 //Middleware
 const isAuth = require('../middleware/isAuth')
@@ -24,7 +25,10 @@ router.post('/registerAsCompany' ,companyController.registerCompany)
 router.post('/loginAsCompany' ,companyController.companyLogin)
 router.get('/companyDetails' ,companyController.getOwnCompanyDetails)
 
-router.post('/register', authController.register)
+
+//Student
+router.post('/registerAsStudnent', authController.registerAsStudent)
+router.post('/loginAsStudent', studentController.studentLogin )
 router.post('/login' , authController.login)
 
 

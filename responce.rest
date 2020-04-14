@@ -40,11 +40,33 @@
 
 
 
-DELETE  http://localhost:3000/api/v1/deletePendingCompany
+# DELETE  http://localhost:3000/api/v1/deletePendingCompany
+# Content-Type: application/json
+
+# {
+#         "id": "5e956ce0d847a112e317dc83"
+# }
+
+# POST http://localhost:3000/api/v1/registerAsStudnent
+# Content-Type: application/json
+
+# {
+#         "name": "TestStudnet",
+#         "nsbm_Id": "1000000",
+#         "acadamic_year": 3,
+#         "affiliation": "University Of Plymouth",
+#         "contact_no": "0771231231",
+#         "email": "TetstStudent@gmail.com",
+#         "password": "1234456"
+# }
+
+
+POST http://localhost:3000/api/v1/loginAsStudent
 Content-Type: application/json
 
 {
-        "id": "5e956ce0d847a112e317dc83"
+        "email": "mshafran13@gmail.com",
+        "password": "123456"
 }
 
 

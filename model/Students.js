@@ -1,16 +1,28 @@
 const mongoose = require('mongoose')
 
 const studentsSchema = new mongoose.Schema({
-    nsbm_Id:{
-        type : String,
-        min : 6,
-        required: true,
-    },
+  
     name: {
          type : String,
          required: true,
          min : 6,
          max :255
+    },
+    nsbm_Id:{
+        type : Number,
+        required: true,
+    },
+    acadamic_year:{
+        type : Number,
+        required: true,
+    },
+    affiliation:{
+        type: String,
+        required: true,
+    },
+    contact_no:{
+        type : String,
+        required: true,
     },
     email:{
         type : String,
@@ -23,17 +35,6 @@ const studentsSchema = new mongoose.Schema({
         required: true,
         max : 1024,
         min : 6
-    },
-    profession:{
-        type : String,
-        required: true,
-    },
-    affiliation:{
-        type: String,
-    },
-    type:{
-        type : String,
-        required: true,
     },
     is_verified:{
         type: Boolean,
