@@ -29,6 +29,95 @@
         }
     ],
     "paths": {
+        "/getOwnCompanyDetails?id={id}": {
+            "get": {
+                "tags": [
+                    "Company | Expert"
+                ],
+                "description": "",
+                "parameters": [
+                    {
+                        "name" : "id",
+                        "in" : "path",
+                        "description" : "The company regsitration ID",
+                        "required" : true,
+                        "style" : "simple",
+                        "explode" : false,
+                        "schema" : {
+                          "type" : "string"
+                        }
+                      }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Company Details Fetch Scuessfull",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref" : "#components/schemas/compayDetails"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref" : "#components/schemas/namcompanyRegistrationFail"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "access_token": []
+                    }
+                ]
+            }
+        },
+        "/loginAsCompany": {
+            "post": {
+                "tags": [
+                    "Company | Expert"
+                ],
+                "description": "Company Login Obtaing the auth token whcih can be used in future operations",
+                "parameters": [],
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json" :{
+                            "schema":{
+                                "$ref" : "#components/schemas/companyLogin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Company Login Scuessfull",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref" : "#components/schemas/companyLoginScuess"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref" : "#components/schemas/namcompanyRegistrationFail"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/registerAsCompany": {
             "post": {
                 "tags": [
@@ -408,6 +497,31 @@
     },
     "components": {
         "schemas": {
+            "compayDetails": {
+                "type":"object",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "example": 200
+                    }, 
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "companyDetails": {
+                        "type": "object",
+                        "example" : {
+                            "is_verified": false,
+                            "_id": "5e956ce0d847a112e317dc83",
+                            "company_name": "Test Company",
+                            "company_reg_no": 1000101,
+                            "country": "Sri Lanka",
+                            "contact_no": "+9412345677",
+                            "email": "test_company@email.com"
+                        }
+                      }
+                }
+            },
             "companyRegistraionScuess": {
                 "type":"object",
                 "properties": {
@@ -434,6 +548,31 @@
                             "__v": 0
                         }
                       }
+                }
+            },      
+            "companyLoginScuess": {
+                "type":"object",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "example": 200
+                    }, 
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTk1NmNlMGQ4NDdhMTEyZTMxN2RjODMiLCJpYXQiOjE1ODY4NjE1NjN9.h7SVh9A2uzDmYbpX-ZjkxcgEnuL7o2BCY1vrypfTpbA"
+                    },
+                    "userId": {
+                        "type": "string",
+                        "example": "5e956ce0d847a112e317dc83"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Company Login Sucessfull"
+                    }
                 }
             },
             "namcompanyRegistrationFail": {
@@ -469,6 +608,19 @@
                     "type" : "string",
                     "example" : "+94771234567"
                   },
+                  "email" : {
+                    "type" : "string",
+                    "example" : "test_company@email.lk"
+                  },
+                  "password" : {
+                    "type" : "string",
+                    "example" : "mysecretpassword"
+                  }
+                }
+              },
+              "companyLogin" : {
+                "required" : [ "email", "password" ],
+                "properties" : {
                   "email" : {
                     "type" : "string",
                     "example" : "test_company@email.lk"

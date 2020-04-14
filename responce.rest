@@ -1,15 +1,51 @@
 //GET  http://localhost:3000/api/v1/getPendingStudents?page=1&limit=2
 
 
-POST http://localhost:3000/api/v1/registerAsCompany
+# POST https://nspm-ipt.herokuapp.com/api/v1/registerAsCompany
+# Content-Type: application/json
+
+# {
+#         "company_name": "Test Company",
+#         "company_reg_no": 1000101,
+#         "country": "Sri Lanka",
+#         "contact_no": "+9412345677",
+#         "email": "test_company@email.com",
+#         "password": "123456"
+# }
+
+
+# POST http://localhost:3000/api/v1/loginAsCompany
+# Content-Type: application/json
+
+# {
+#         "email": "test_company@email.com",
+#         "password": "122456"
+# }
+
+
+# GET http://localhost:3000/api/v1/companyDetails
+# Content-Type: application/json
+
+# {
+#      "id" :"5e956ce0d847a112e317dc83"
+# }
+
+
+# POST http://localhost:3000/api/v1/approveCompany
+# Content-Type: application/json
+
+# {
+#         "id": "5e956ce0d847a112e317dc83"
+# }
+
+
+
+DELETE  http://localhost:3000/api/v1/deletePendingCompany
 Content-Type: application/json
 
 {
-        "company_name": "Test Company",
-        "company_reg_no": 1000101,
-        "country": "Sri Lanka",
-        "contact_no": "+9412345677",
-        "email": "test_company@email.com",
-        "password": "123456"
+        "id": "5e956ce0d847a112e317dc83"
 }
+
+
 

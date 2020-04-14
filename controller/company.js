@@ -1,6 +1,7 @@
 const Company = require('../model/Company')
-const { companyRegistrationValidation } = require('../validation/companyValidation')
+const { companyRegistrationValidation , companyLoginValidation } = require('../validation/companyValidation')
 const bycrpt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 
 exports.registerCompany = async (req, res) => {
@@ -42,6 +43,65 @@ exports.registerCompany = async (req, res) => {
         res.status(201).json({ status: 201, success: 'true', registeredCompany, message: 'Member Registration Sucessfull' })
     } catch (err) {
         res.status(400).json({ status: 400,error: err })
+    }
+
+}
+
+exports.companyLogin = async (req, res, next) => {
+    
+    // console.log(req)
+
+    //Validation Feild
+     const { error } = companyLoginValidation(req.body)
+
+     if (error) {
+         return res.status(400).json({status: 400, message: error.details[0].message})
+     }
+ 
+     //User Check
+     const companyLoginCheck = await Company.findOne({ email: req.body.email })
+     if (!companyLoginCheck) {
+         return res.status(400).json({status: 400, message: " Seems like you dont have account "})
+     }
+ 
+     //PasswordComaprison
+     const validPassword = await bycrpt.compare(req.body.password, companyLoginCheck.password)
+     if (!validPassword) {
+         return res.status(400).json({status: 400, message: "Incorrect Password"})
+     }
+ 
+     //creating a token
+     const token = jwt.sign({ _id: companyLoginCheck._id }, process.env.TOKEN_SECRET)
+     res.header('auth-Token', token).send({status: 200,  success: 'true', token: token, userId: companyLoginCheck._id, message: 'Company Login Sucessfull' })
+ 
+}
+
+exports.getOwnCompanyDetails = async (req, res, next) => {
+     
+    const id = req.query.id
+     console.log(id)
+    //check user exist
+    try{
+
+        const companyDetails ={}
+
+        const fetchResults = await Company.findOne({ _id: id})
+
+        if (!fetchResults) {
+            return res.status(400).json({status: 400, message: "Couldnt Find Your Company Detatils"})
+        }else{
+            companyDetails.id = fetchResults._id
+            companyDetails.is_verified = fetchResults.is_verified
+            companyDetails.company_name = fetchResults.company_name
+            companyDetails.company_reg_no = fetchResults.company_reg_no
+            companyDetails.country = fetchResults.country 
+            companyDetails.contact_no = fetchResults.contact_no
+            companyDetails.email = fetchResults.email
+
+            res.status(201).json({ status: 200, success: 'true', companyDetails, message: 'Get Comapany Details Scuessfull' })
+        }
+    }catch(e){
+        return res.status(400).json({status: 400, message: "Couldnt Find Your Company Detatils"})
     }
 
 }

@@ -13,11 +13,16 @@ const isAuth = require('../middleware/isAuth')
 router.post('/createAdmin' , authController.cerateAdmin)
 router.post('/loginAdmin' , authController.adminLogin)
 router.post('/approveStudent' , adminController.approvePendingStd)
+router.post('/approveCompany' , adminController.approvePendingCompany)
 router.get('/getPendingStudents' , adminController.getPendingStudents)
+router.get('/getPendingCompany' , adminController.getPendingCompanies)
 router.delete('/deletePendingStudent' , adminController.deletePendingStudent)
+router.delete('/deletePendingCompany' , adminController.deletePendingCompany)
 
 //COMPANY
 router.post('/registerAsCompany' ,companyController.registerCompany)
+router.post('/loginAsCompany' ,companyController.companyLogin)
+router.get('/companyDetails' ,companyController.getOwnCompanyDetails)
 
 router.post('/register', authController.register)
 router.post('/login' , authController.login)
