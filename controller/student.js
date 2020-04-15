@@ -83,7 +83,7 @@ exports.addQualification = async (req, res, next) => {
     
     studnetObjModified.id = studentObject._id
     studnetObjModified.nsbm_Id = studentObject.nsbm_Id
-    studnetObjModified.nsbm_Id = studentObject.nsbm_Id
+    studnetObjModified.name = studentObject.name
     studnetObjModified.acadamic_year = studentObject.acadamic_year
     studnetObjModified.affiliation = studentObject.affiliation
     studnetObjModified.contact_no = studentObject.contact_no
