@@ -24,11 +24,15 @@ router.delete('/deletePendingCompany' , adminController.deletePendingCompany)
 router.post('/registerAsCompany' ,companyController.registerCompany)
 router.post('/loginAsCompany' ,companyController.companyLogin)
 router.get('/companyDetails' ,companyController.getOwnCompanyDetails)
+router.get('/studentBySkill' , companyController.getSkillByCategory)
 
 
 //Student
 router.post('/registerAsStudnent', authController.registerAsStudent)
 router.post('/loginAsStudent', studentController.studentLogin )
+router.post('/addSkill' , studentController.addQualification)
+router.get('/studentDetail' ,studentController.getOwnStudentDetails)
+router.get('/skillByStudentId' , studentController.getSkillByStudentId)
 router.post('/login' , authController.login)
 
 

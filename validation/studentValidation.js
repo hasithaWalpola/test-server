@@ -14,4 +14,18 @@ const studnetLoginValidation = (data) => {
     return schema.validate(data)
 }
 
+const studnetAddSkillValidation = (data) => {
+
+    const schema = Joi.object(
+        {
+            userId: Joi.string().required(),
+            qualification_category: Joi.string().required(),
+            qualifications:  Joi.object().required()
+        }
+    )
+
+    return schema.validate(data)
+}
+
 module.exports.studnetLoginValidation = studnetLoginValidation
+module.exports.studnetAddSkillValidation = studnetAddSkillValidation

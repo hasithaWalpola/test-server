@@ -61,13 +61,45 @@
 # }
 
 
-POST http://localhost:3000/api/v1/loginAsStudent
+# POST http://localhost:3000/api/v1/loginAsStudent
+# Content-Type: application/json
+
+# {
+#         "email": "mshafran13@gmail.com",
+#         "password": "123456"
+# }
+
+
+
+
+# POST http://localhost:3000/api/v1/addSkill
+# Content-Type: application/json
+
+# {
+#         "userId": "5e95f46b6f7e4045a167b05c",
+#         "qualification_category": "Programming",
+#         "qualifications" : {
+#                 "languages" : ["Java" , "Node Js"],
+#                 "framworks" : ["Flutter" , "React Native"],
+#                 "databases" : ["Mongo DB" , "Firebase"]
+#         }
+# }
+
+
+
+# GET http://localhost:3000/api/v1/studentBySkill?qualification_category=Programming
+# Content-Type: application/json
+
+
+
+# GET http://localhost:3000/api/v1/studentBySkill
+# Content-Type: application/json
+
+
+
+# GET http://localhost:3000/api/v1/studentDetail?id=5e95f46b6f7e4045a167b05c
+# Content-Type: application/json
+
+
+GET http://localhost:3000/api/v1/skillByStudentId?id=5e95f46b6f7e4045a167b05c
 Content-Type: application/json
-
-{
-        "email": "mshafran13@gmail.com",
-        "password": "123456"
-}
-
-
-
