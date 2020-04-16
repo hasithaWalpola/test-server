@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express();
+var cors = require('cors')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const authRoute = require('./routes/auth')
@@ -25,6 +26,7 @@ const swaggerDocument = require('./swagger.json');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(express.json());
+app.use(cors())
 
 app.use((req, res, next)=>{
         res.header('Access-Control-Allow-Origin', '*');
