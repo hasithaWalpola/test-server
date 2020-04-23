@@ -116,10 +116,7 @@ exports.getSkillByCategory = async (req, res, next) => {
 
         const catergory = req.query.qualification_category
 
-        console.log(catergory)
-
         try {
-
             const students = {}
 
             const fetchResults = await Skills.find({ qualification_category: catergory })
@@ -136,14 +133,10 @@ exports.getSkillByCategory = async (req, res, next) => {
 
     } else {
         console.log('No Query Found')
-        
-
+    
         try {
-
             const students = {}
-
             const fetchResults = await Skills.find({ })
-
             if (!fetchResults) {
                 return res.status(400).json({ status: 400, message: "No Skills Find " })
             } else {
@@ -153,9 +146,5 @@ exports.getSkillByCategory = async (req, res, next) => {
         } catch (e) {
             return res.status(400).json({ status: 400, message: "Couldnt Find Skills" })
         }
-
     }
-
-
-
 }

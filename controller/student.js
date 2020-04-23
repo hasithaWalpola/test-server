@@ -1,6 +1,6 @@
 const Students = require('../model/Students')
 const Skills = require('../model/Skills')
-const { studnetLoginValidation, studnetAddSkillValidation } = require('../validation/studentValidation')
+const { studnetLoginValidation, studnetAddSkillValidation, studnetPasswordChangeValidation } = require('../validation/studentValidation')
 const bycrpt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -39,6 +39,11 @@ exports.getOwnStudentDetails = async (req, res, next) => {
 
     const id = req.query.id
     console.log(id)
+
+    if (!id) {
+        return res.status(400).json({ status: 400, message: "Provide Studnet Id" })
+    }
+
     //check user exist
     try {
 
@@ -47,7 +52,7 @@ exports.getOwnStudentDetails = async (req, res, next) => {
         const fetchResults = await Students.findOne({ _id: id })
 
         if (!fetchResults) {
-            return res.status(400).json({ status: 400, message: "Couldnt Find Your Company Detatils" })
+            return res.status(400).json({ status: 400, message: "Couldnt Find Your Studnet Detatils" })
         } else {
             studentDetails.id = fetchResults._id
             studentDetails.is_verified = fetchResults.is_verified
@@ -58,10 +63,10 @@ exports.getOwnStudentDetails = async (req, res, next) => {
             studentDetails.contact_no = fetchResults.contact_no
             studentDetails.email = fetchResults.email
 
-            res.status(201).json({ status: 200, success: 'true', studentDetails, message: 'Get Comapany Details Scuessfull' })
+            res.status(201).json({ status: 200, success: 'true', studentDetails, message: 'Get  Studnet Scuessfull' })
         }
     } catch (e) {
-        return res.status(400).json({ status: 400, message: "Couldnt Find Your Company Detatils" })
+        return res.status(400).json({ status: 400, message: "Couldnt Find Your Student Detatils" })
     }
 
 }
@@ -80,7 +85,7 @@ exports.addQualification = async (req, res, next) => {
 
     //Get Student Object Check
     const studentObject = await Students.findOne({ _id: req.body.userId })
-    
+
     studnetObjModified.id = studentObject._id
     studnetObjModified.nsbm_Id = studentObject.nsbm_Id
     studnetObjModified.name = studentObject.name
@@ -108,38 +113,77 @@ exports.addQualification = async (req, res, next) => {
         res.status(400).send({ status: 400, message: err })
     }
 
+}
+
+
+exports.getSkillByStudentId = async (req, res, next) => {
+
+
+    console.log('Query Have')
+
+    const id = req.query.id
+
+    console.log(id)
+
+    try {
+
+        const students = {}
+
+        const studentSkill = await Skills.find({ userId: id })
+
+        if (!studentSkill) {
+            return res.status(400).json({ status: 400, message: "Couldnt Find Your Company Detatils" })
+        } else {
+
+            res.status(201).json({ status: 200, success: 'true', studentSkill, message: 'Get Skill By Student Id Scuessfull' })
+        }
+    } catch (e) {
+        return res.status(400).json({ status: 400, message: "Couldnt Find Skill Fot Student Id" })
+    }
 
 
 }
 
 
-exports.getSkillByStudentId= async (req, res, next) => {
+exports.changePassword = async (req, res, next) => {
 
+    console.log(req.body.id, 'Studentid')
+    console.log(req.body.currentPassword, 'Current Password')
+    console.log(req.body.newPassword, 'New Password')
 
-        console.log('Query Have')
+    //Validation Feild
+    const { error } = studnetPasswordChangeValidation(req.body)
 
-        const id = req.query.id
+    if (error) {
+        return res.status(400).json({ status: 400, message: error.details[0].message })
+    }
 
-        console.log(id)
+    try {
+        const students = {}
 
-        try {
+        const studentDetails = await Students.findOne({ _id: req.body.id })
 
-            const students = {}
+        if (!studentDetails) {
+            return res.status(400).json({ status: 400, message: "Couldnt Find Your Student Detatils" })
+        } else {
+            const validPassword = await bycrpt.compare(req.body.currentPassword, studentDetails.password)
 
-            const studentSkill = await Skills.find({ userId: id })
+            if (validPassword) {
+                 //Hash the password
+                const salt = await bycrpt.genSalt(10);
+                const hashedNewPassword = await bycrpt.hash(req.body.newPassword, salt)
 
-            if (!studentSkill) {
-                return res.status(400).json({ status: 400, message: "Couldnt Find Your Company Detatils" })
+                const markAsVerified = { password: hashedNewPassword };
+
+                const done = await studentDetails.updateOne(markAsVerified);
+
+                res.status(200).json({ status: 200, success: 'true', done, message: 'Password Updated Scuessfuly' })
             } else {
-
-                res.status(201).json({ status: 200, success: 'true', studentSkill, message: 'Get Skill By Student Id Scuessfull' })
+                return res.status(400).json({ status: 400, message: "Wrong Current Password" })
             }
-        } catch (e) {
-            return res.status(400).json({ status: 400, message: "Couldnt Find Skill Fot Student Id" })
+
         }
-
-    
-
-
-
+    } catch (e) {
+        return res.status(400).json({ status: 400, message: "Couldnt Find Details For Student Id" })
+    }
 }

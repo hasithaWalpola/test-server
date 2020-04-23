@@ -2,10 +2,10 @@ const jwt = require('jsonwebtoken')
 
 module.exports = function (req , res , next){
     const token = req.header('authorization')
-    //console.log(token)
+    console.log(token)
 
     if(!token){
-        return res.status(401).send('Acess Denied')
+        res.status(401).send({ error: 'unauthorized' })
     }
 
     try{
@@ -13,6 +13,6 @@ module.exports = function (req , res , next){
         req.user = verified
         next()
     }catch(err){
-        return res.status(401).send('Acess Denied')
+        res.status(401).send({ error: 'unauthorized' })
     }
 }

@@ -1,6 +1,107 @@
-//GET  http://localhost:3000/api/v1/getPendingStudents?page=1&limit=2
+#1
+# POST http://localhost:3000/api/v1/loginAdmin
+# Content-Type: application/json
+
+# {
+#         "email": "iptadmin@nsbm.lk",
+#         "password": "ipt$123"
+# }
+
+# 2
+# GET http://localhost:3000/api/v1/getPendingStudents?page=1&limit=10
+# Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTkyYzU4MjJlNmJjYzA5NTZlZDA2NWUiLCJpYXQiOjE1ODcyMTY2MjV9.wOvEfkqLpMGoxyn_-snh6E5-lnrjXJBj6OdSfcE8WWM
+
+# 3
+# GET http://localhost:3000/api/v1/getPendingCompany?page=1&limit=10
+# Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTkyYzU4MjJlNmJjYzA5NTZlZDA2NWUiLCJpYXQiOjE1ODcyMTY2MjV9.wOvEfkqLpMGoxyn_-snh6E5-lnrjXJBj6OdSfcE8WWM
+
+# 4
+# POST http://localhost:3000/api/v1/approveStudent
+# Authorization : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTkyYzU4MjJlNmJjYzA5NTZlZDA2NWUiLCJpYXQiOjE1ODcyMTY2MjV9.wOvEfkqLpMGoxyn_-snh6E5-lnrjXJBj6OdSfcE8WWM
+# Content-Type: application/json
+
+# {
+#    "reg_id" :"5e970d93f45abe0024f1340d"
+# }
+
+# 5
+# POST http://localhost:3000/api/v1/approveCompany
+# Authorization : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTkyYzU4MjJlNmJjYzA5NTZlZDA2NWUiLCJpYXQiOjE1ODcyMTY2MjV9.wOvEfkqLpMGoxyn_-snh6E5-lnrjXJBj6OdSfcE8WWM
+# Content-Type: application/json
+
+# {
+#    "id" :"5e9587ac932ab700248796ce"
+# }
+
+# 6
+# DELETE  http://localhost:3000/api/v1/deletePendingCompany
+# Authorization : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTkyYzU4MjJlNmJjYzA5NTZlZDA2NWUiLCJpYXQiOjE1ODcyMTY2MjV9.wOvEfkqLpMGoxyn_-snh6E5-lnrjXJBj6OdSfcE8WWM
+# Content-Type: application/json
+
+# {
+#         "id": "5e956ce0d847a112e317dc83"
+# }
+
+# 7
+# DELETE  http://localhost:3000/api/v1/deletePendingStudent
+# Authorization : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTkyYzU4MjJlNmJjYzA5NTZlZDA2NWUiLCJpYXQiOjE1ODcyMTY2MjV9.wOvEfkqLpMGoxyn_-snh6E5-lnrjXJBj6OdSfcE8WWM
+# Content-Type: application/json
+
+# {
+#         "id": "5e956ce0d847a112e317dc83"
+# }
 
 
+# 8
+# POST http://localhost:3000/api/v1/registerAsStudnent
+# Content-Type: application/json
+
+# {
+#         "name": "TestStudnet",
+#         "nsbm_Id": "1000000",
+#         "acadamic_year": 3,
+#         "affiliation": "University Of Plymouth",
+#         "contact_no": "0771231231",
+#         "email": "TetstStudent1234@gmail.com",
+#         "password": "123456"
+# }
+
+# 9
+# POST http://localhost:3001/api/v1/loginAsStudent
+# Content-Type: application/json
+
+# {
+#         "email": "TetstStudent@gmail.com",
+#         "password": "123123"
+# }
+
+# 10
+# GET http://localhost:3000/api/v1/studentDetail?id=5e9b2aa2339fad6b7a3f873a
+# Authorization : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTkyYzU4MjJlNmJjYzA5NTZlZDA2NWUiLCJpYXQiOjE1ODcyMTY2MjV9.wOvEfkqLpMGoxyn_-snh6E5-lnrjXJBj6OdSfcE8WWM
+# Content-Type: application/json
+
+
+# 11
+# POST http://localhost:3000/api/v1/addSkill
+# Content-Type: application/json
+
+# {
+#         "userId": "5e95f46b6f7e4045a167b05c",
+#         "qualification_category": "Programming",
+#         "qualifications" : {
+#                 "languages" : ["Java" , "Node Js"],
+#                 "framworks" : ["Flutter" , "React Native"],
+#                 "databases" : ["Mongo DB" , "Firebase"]
+#         }
+# }
+
+
+# 12
+# GET http://localhost:3000/api/v1/skillByStudentId?id=5e95f46b6f7e4045a167b05c
+# Authorization : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTkyYzU4MjJlNmJjYzA5NTZlZDA2NWUiLCJpYXQiOjE1ODcyMTY2MjV9.wOvEfkqLpMGoxyn_-snh6E5-lnrjXJBj6OdSfcE8WWM
+# Content-Type: application/json
+
+# 13
 # POST https://nspm-ipt.herokuapp.com/api/v1/registerAsCompany
 # Content-Type: application/json
 
@@ -13,6 +114,47 @@
 #         "password": "123456"
 # }
 
+# 14
+# POST http://localhost:3000/api/v1/loginAsCompany
+# Content-Type: application/json
+
+# {
+#         "email": "test_company@email.com",
+#         "password": "123456"
+# }
+
+# 15
+# GET http://localhost:3000/api/v1/companyDetails?id=5e95867d932ab700248796ca
+# Authorization : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTkyYzU4MjJlNmJjYzA5NTZlZDA2NWUiLCJpYXQiOjE1ODcyMTY2MjV9.wOvEfkqLpMGoxyn_-snh6E5-lnrjXJBj6OdSfcE8WWM
+# Content-Type: application/json
+
+
+# 16
+# GET http://localhost:3000/api/v1/studentBySkill?qualification_category=Programming
+# Authorization : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTkyYzU4MjJlNmJjYzA5NTZlZDA2NWUiLCJpYXQiOjE1ODcyMTY2MjV9.wOvEfkqLpMGoxyn_-snh6E5-lnrjXJBj6OdSfcE8WWM
+# Content-Type: application/json
+
+
+
+
+
+
+######### END ##########
+
+
+
+
+
+
+
+
+
+
+
+
+//GET  http://localhost:3000/api/v1/getPendingStudents?page=1&limit=2
+
+
 
 # POST http://localhost:3000/api/v1/loginAsCompany
 # Content-Type: application/json
@@ -23,12 +165,6 @@
 # }
 
 
-# GET http://localhost:3000/api/v1/companyDetails
-# Content-Type: application/json
-
-# {
-#      "id" :"5e956ce0d847a112e317dc83"
-# }
 
 
 # POST http://localhost:3000/api/v1/approveCompany
@@ -40,12 +176,9 @@
 
 
 
-# DELETE  http://localhost:3000/api/v1/deletePendingCompany
-# Content-Type: application/json
 
-# {
-#         "id": "5e956ce0d847a112e317dc83"
-# }
+
+
 
 # POST http://localhost:3000/api/v1/registerAsStudnent
 # Content-Type: application/json
@@ -101,5 +234,12 @@
 # Content-Type: application/json
 
 
-GET http://localhost:3000/api/v1/skillByStudentId?id=5e95f46b6f7e4045a167b05c
-Content-Type: application/json
+
+# POST http://localhost:3001/api/v1/changePassword
+# Content-Type: application/json
+
+# {
+#         "id": "5e95eb41bbd5c141b6f9251a",
+#         "currentPassword" : "123123",
+#         "newPassword" : "123456"
+# }

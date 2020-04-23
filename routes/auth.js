@@ -33,6 +33,7 @@ router.post('/loginAsStudent', studentController.studentLogin )
 router.post('/addSkill' ,isAuth ,  studentController.addQualification)
 router.get('/studentDetail' , isAuth, studentController.getOwnStudentDetails)
 router.get('/skillByStudentId' , isAuth, studentController.getSkillByStudentId)
+router.post('/changePassword' , studentController.changePassword)
 router.post('/login' , authController.login)
 
 

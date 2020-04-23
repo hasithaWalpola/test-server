@@ -6,16 +6,9 @@ exports.getPendingStudents = async (req, res) => {
 
     const page = parseInt(req.query.page)
     const limit = parseInt(req.query.limit)
-
     console.log(page, 'Page', limit, 'Limit')
-
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
-
-
-
-    //get all pending students
-    //const data = await Students.where({ type: 'student', is_verified: false })
 
     const results = {}
 
@@ -37,15 +30,9 @@ exports.getPendingStudents = async (req, res) => {
             limit: limit
         }
     }
-
-    
         results.results = await Students.find({ is_verified: false  }).limit(limit).skip(startIndex).exec()
-   
-    
-
 
     try {
-        // const registeredUser = await user.save();
         res.status(200).send({ success: 'true', results, message: 'Get Students Details Sucessfull' })
     } catch (err) {
         res.status(400).send({ error: err })
@@ -56,7 +43,10 @@ exports.getPendingStudents = async (req, res) => {
 exports.approvePendingStd = async (req, res) => {
 
     //reg_id
-    // console.log(req.body.reg_id)
+     console.log(req.body.reg_id)
+     if(!req.body.reg_id){
+        res.status(400).send({ error: 'Provide The Student ID' })
+     }
 
     //get student
     const dataStudent = await Students.findOne({ _id: req.body.reg_id })
@@ -84,13 +74,18 @@ exports.approvePendingStd = async (req, res) => {
         }
 
     }
-
 }
 
 exports.approvePendingCompany = async (req, res) => {
 
     //reg_id
     // console.log(req.body.reg_id)
+
+    //reg_id
+    console.log(req.body.id)
+    if(!req.body.id){
+       res.status(400).send({ error: 'Provide The Company ID' })
+    }
 
     //get student
     const dataCompany = await Company.findOne({ _id: req.body.id })
@@ -100,7 +95,7 @@ exports.approvePendingCompany = async (req, res) => {
         })
         .catch(err => {
             //  console.log(err)
-            res.status(400).send({ error: 'Wrong Student Id' })
+            res.status(400).send({ error: 'Wrong Company Id' })
         })
 
     //console.log(dataStudent)
@@ -120,6 +115,8 @@ exports.approvePendingCompany = async (req, res) => {
     }
 
 }
+
+
 
 exports.deletePendingStudent = async (req, res) => {
 
@@ -158,6 +155,11 @@ exports.deletePendingStudent = async (req, res) => {
 
 exports.deletePendingCompany = async (req, res) => {
 
+    console.log(req.body.id)
+    if(!req.body.id){
+       res.status(400).send({ error: 'Provide The Company ID' })
+    }
+
     //console.log(req.body)
     //Get Company
     const dataCompany = await Company.findByIdAndRemove(req.body.id)
@@ -186,11 +188,6 @@ exports.getPendingCompanies = async (req, res) => {
     const startIndex = (page - 1) * limit
     const endIndex = page * limit
 
-
-
-    //get all pending students
-    //const data = await Students.where({ type: 'student', is_verified: false })
-
     const results = {}
 
     const pageCount = await Company.countDocuments().exec() / limit
@@ -212,12 +209,8 @@ exports.getPendingCompanies = async (req, res) => {
         }
     }
 
-    
         results.results = await Company.find({ is_verified: false  }).limit(limit).skip(startIndex).exec()
    
-    
-
-
     try {
         // const registeredUser = await user.save();
         res.status(200).send({ success: 'true', results, message: 'Get Pending Company Details Sucessfull' })

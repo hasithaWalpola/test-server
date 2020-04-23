@@ -27,5 +27,20 @@ const studnetAddSkillValidation = (data) => {
     return schema.validate(data)
 }
 
+
+const studnetPasswordChangeValidation = (data) => {
+
+    const schema = Joi.object(
+        {
+            id: Joi.string().required(),
+            currentPassword: Joi.string().required(),
+            newPassword:  Joi.string().min(6).required(),
+        }
+    )
+
+    return schema.validate(data)
+}
+
 module.exports.studnetLoginValidation = studnetLoginValidation
 module.exports.studnetAddSkillValidation = studnetAddSkillValidation
+module.exports.studnetPasswordChangeValidation = studnetPasswordChangeValidation
