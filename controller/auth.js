@@ -1,6 +1,6 @@
 const Students = require('../model/Students')
 const Admin = require('../model/Admin')
-const { studentRegistrationValidation, loginValidation } = require('../validation')
+const { studentRegistrationValidation, loginValidation, customerRegistrationValidation } = require('../validation')
 const { adminCreateValidation, adminLoginValidation } = require('../validation/adminValidation')
 const bycrpt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -147,9 +147,10 @@ exports.login = async (req, res, next) => {
 
 exports.registerCustomer = async (req, res) => {
     //Validation
-    const { error } = studentRegistrationValidation(req.body)
-
-
+   // console.log('here customer', req)
+    const { error } = customerRegistrationValidation(req.body)
+    console.log('error', error)
+    //console.log('here customer', customer)
     if (error) {
         return res.status(400).json({ status: 400, message: error.details[0].message })
     }
@@ -178,7 +179,7 @@ exports.registerCustomer = async (req, res) => {
     try {
         const registerdCustomer = await customer.save();
 
-        res.status(200).send({ success: 'true', registeredStudent, message: 'Studnet Registration Sucessfull' })
+        res.status(200).send({ success: 'true', registerdCustomer, message: 'Studnet Registration Sucessfull' })
     } catch (err) {
         res.status(400).send({ status: 400, message: err })
     }

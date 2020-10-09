@@ -42,7 +42,7 @@ router.post('/registerCustomer', authController.registerCustomer)
 
 
 
-router.get('/post' ,isAuth ,(req, res)=>{
+router.get('/post' ,(req, res)=>{
     res.json({
         posts:{
             title : 'first post'
