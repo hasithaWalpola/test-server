@@ -128,7 +128,7 @@ exports.login = async (req, res, next) => {
     }
 
     //User Check
-    const userCheck = await User.findOne({ email: req.body.email })
+    const userCheck = await Customers.findOne({ email: req.body.email })
     if (!userCheck) {
         return res.status(400).send({ error: 'Seems like you dont have account' })
     }

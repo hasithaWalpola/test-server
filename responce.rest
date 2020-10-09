@@ -1,9 +1,9 @@
 
-POST http://localhost:3000/api/v1/login
+POST https://hasitha-server.herokuapp.com/api/v1/login
 Content-Type: application/json
 
 {
-        "email": "dc@me.com",
+        "email": "kw@me.com",
         "password": "123456"
 }
 
