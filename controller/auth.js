@@ -5,6 +5,7 @@ const { adminCreateValidation, adminLoginValidation } = require('../validation/a
 const bycrpt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Customers = require('../model/Customers')
+const User = require('../model/User')
 
 
 
@@ -127,7 +128,7 @@ exports.login = async (req, res, next) => {
     }
 
     //User Check
-    const userCheck = await Users.findOne({ email: req.body.email })
+    const userCheck = await User.findOne({ email: req.body.email })
     if (!userCheck) {
         return res.status(400).send({ error: 'Seems like you dont have account' })
     }
@@ -170,7 +171,7 @@ exports.registerCustomer = async (req, res) => {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
-        password: req.body.password,
+        password: hashedPassword,
         mobile: req.body.mobile,
     });
 
