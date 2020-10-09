@@ -1,11 +1,23 @@
-#1
-# POST http://localhost:3000/api/v1/loginAdmin
+
+# POST https://hasitha-server.herokuapp.com/api/v1/loginAdmin
 # Content-Type: application/json
 
 # {
 #         "email": "iptadmin@nsbm.lk",
 #         "password": "ipt$123"
 # }
+
+# test
+POST https://hasitha-server.herokuapp.com/api/v1/registerCustomer
+Content-Type: application/json
+
+{
+        "first_name": "TestStudnet",
+        "last_name": "1000000",
+        "email": "TetstStudent1234@gmail.com",
+        "password": "123456",
+        "mobile": "0771231231",
+}
 
 # 2
 # GET http://localhost:3000/api/v1/getPendingStudents?page=1&limit=10

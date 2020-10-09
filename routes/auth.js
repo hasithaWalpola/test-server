@@ -35,6 +35,8 @@ router.get('/studentDetail' , isAuth, studentController.getOwnStudentDetails)
 router.get('/skillByStudentId' , isAuth, studentController.getSkillByStudentId)
 router.post('/changePassword' , studentController.changePassword)
 router.post('/login' , authController.login)
+router.post('/registerCustomer', authController.registerCustomer)
+
 
 
 

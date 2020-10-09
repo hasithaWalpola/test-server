@@ -4,6 +4,7 @@ const { studentRegistrationValidation, loginValidation } = require('../validatio
 const { adminCreateValidation, adminLoginValidation } = require('../validation/adminValidation')
 const bycrpt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Customers = require('../model/Customers')
 
 
 
@@ -141,4 +142,45 @@ exports.login = async (req, res, next) => {
     //creating a token
     const token = jwt.sign({ _id: userCheck._id }, process.env.TOKEN_SECRET)
     res.header('auth-Token', token).send({ success: 'true', token: token, userId: userCheck._id, message: 'Member Login Sucessfull' })
+}
+
+
+exports.registerCustomer = async (req, res) => {
+    //Validation
+    const { error } = studentRegistrationValidation(req.body)
+
+
+    if (error) {
+        return res.status(400).json({ status: 400, message: error.details[0].message })
+    }
+
+    //check user exist
+    const emailCheck = await Customers.findOne({ email: req.body.email })
+
+    if (emailCheck) {
+        return res.status(400).send({ status: 400, message: 'Email Already Exixts' })
+    }
+
+    //Hash the password
+    const salt = await bycrpt.genSalt(10);
+    const hashedPassword = await bycrpt.hash(req.body.password, salt)
+
+    const customer = new Customers({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        password: req.body.password,
+        mobile: req.body.mobile,
+    });
+
+    console.log('here', customer)
+
+    try {
+        const registerdCustomer = await customer.save();
+
+        res.status(200).send({ success: 'true', registeredStudent, message: 'Studnet Registration Sucessfull' })
+    } catch (err) {
+        res.status(400).send({ status: 400, message: err })
+    }
+
 }
