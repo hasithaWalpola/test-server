@@ -8,7 +8,7 @@ const customersSchema = new mongoose.Schema({
          min : 6,
          max :255
     },
-    first_name: {
+    last_name: {
         type : String,
         required: true,
         min : 6,
